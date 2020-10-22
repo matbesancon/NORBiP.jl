@@ -1,6 +1,12 @@
 
 """
-    solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::ExtendedMethod, δ::Real, optimizer, poly_lib)
+    solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::ExtendedMethod, δ::Real, vertex_list;...)
+
+Solve NORBiP using the extended formulation.
+Creates a disjunctive constraint over vertices of each dual polyhedron using indicator constraints.
+
+`vertex_list` is a vector of vectors of length `bp.mu`, with each
+individual sub-vector containing a list of tuples `(α, β)` with α a vector of `bp.ml` elements and β a scalar.
 """
 function solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::ExtendedMethod, δ::Real, vertex_list; verbose=false, resvar=false)
     (m, x, v, λ, σ, s, upperfeas, lowerfeas, kkt, kkt2_var, kkt2_bounds) = bilevel_optimality(m, bp, upperlevel=false, resvar=resvar)
