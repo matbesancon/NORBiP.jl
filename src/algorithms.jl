@@ -83,7 +83,7 @@ end
 """
     solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::LazyExtended, δ::Real; optimizer, poly_lib)
 """
-function solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::LazyExtended, δ::Real; optimizer, lib, verbose=false)
+function solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::LazyExtended, δ::Real; optimizer, poly_lib, verbose=false)
     (m, x, v, λ, σ, s, upperfeas, lowerfeas, kkt, kkt2_var, kkt2_bounds) = bilevel_optimality(m, bp, upperlevel=true)
     add_upper_level(m, bp, x, v)
     # early termination if relaxed or bilevel optimistic infeasible
@@ -101,7 +101,7 @@ function solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::LazyExtended, �
         optimize!(m)
         empty!(valid_subproblems)
         k = pop!(unexplored_subproblems)
-        subresult = dual_polyhedron(bp.B, bp.d, bp.H, k, x, v, bp.A, bp.G, bp.q, bp.b, δ; lib=lib, optimizer=optimizer)
+        subresult = dual_polyhedron(bp.B, bp.d, bp.H, k, x, v, bp.A, bp.G, bp.q, bp.b, δ; poly_lib=poly_lib, optimizer=optimizer)
         if subresult[1] == :INFEASIBLE
             return (:INFEASIBLE,)
         elseif subresult[1] == :OPTIMAL
@@ -132,7 +132,7 @@ end
 """
     solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::LazyBatched, δ::Real; optimizer, poly_lib)
 """
-function solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, lb::LazyBatched, δ::Real; optimizer, lib, verbose=false)
+function solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, lb::LazyBatched, δ::Real; optimizer, poly_lib, verbose=false)
     (m, x, v, λ, σ, s, upperfeas, lowerfeas, kkt, kkt2_var, kkt2_bounds) = bilevel_optimality(m, bp, upperlevel=true)
     add_upper_level(m, bp, x, v)
     # early termination if relaxed or bilevel optimistic infeasible
@@ -155,7 +155,7 @@ function solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, lb::LazyBatched, 
             k = pop!(unexplored_subproblems)
             verbose && @info "subproblem $k"
             optimize!(m)
-            subresult = dual_polyhedron(bp.B, bp.d, bp.H, k, x, v, bp.A, bp.G, bp.q, bp.b, δ; lib=lib, optimizer=optimizer)
+            subresult = dual_polyhedron(bp.B, bp.d, bp.H, k, x, v, bp.A, bp.G, bp.q, bp.b, δ; poly_lib=poly_lib, optimizer=optimizer)
             if subresult[1] == :INFEASIBLE
                 verbose && @info "infeasible subproblem"
                 return (:INFEASIBLE,)

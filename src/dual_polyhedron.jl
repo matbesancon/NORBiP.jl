@@ -38,7 +38,7 @@ function enum_vertices(B, H, d, poly_lib)
 end
 
 function dual_polyhedron(B, d, H, k::Integer, xvar, vvar, A, G, q, b, δ::Real;
-                         lib::Polyhedra.Library, optimizer)
+                         poly_lib::Polyhedra.Library, optimizer)
     x = JuMP.value.(xvar)
     v = JuMP.value.(vvar)
     nl = length(d)
@@ -61,7 +61,7 @@ function dual_polyhedron(B, d, H, k::Integer, xvar, vvar, A, G, q, b, δ::Real;
     if JuMP.objective_value(m) <= q[k] - dot(G[k,:], x)
         return (:OPTIMAL, nothing)
     end
-    points = Polyhedra.points(Polyhedra.vrep(Polyhedra.polyhedron(m, lib)))
+    points = Polyhedra.points(Polyhedra.vrep(Polyhedra.polyhedron(m, poly_lib)))
     vertices = map(points) do pvec
         alpha_vec = pvec[1:end-1]
         beta = pvec[end]
