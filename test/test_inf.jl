@@ -27,11 +27,11 @@ import CDDLib
     @test JuMP.termination_status(m) == MOI.INFEASIBLE
 
     empty!(m)
-    (st, res_tup) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyExtended(), 0.1, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), lib = CDDLib.Library(:exact))
+    (st, res_tup) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyExtended(), 0.1, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), poly_lib = CDDLib.Library(:exact))
     @test st == :INFEASIBLE
 
     empty!(m)
-    (st, res_tup) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyBatched(2), 0.1, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), lib = CDDLib.Library(:exact))
+    (st, res_tup) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyBatched(2), 0.1, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), poly_lib = CDDLib.Library(:exact))
     @test st == :INFEASIBLE
 
     res = NORBiP.solve_near_optimal(bp, NORBiP.SingleVertexHeuristic(3), 0.1, () -> SCIP.Optimizer(display_verblevel=0), silent=true, sublimit=1000)
@@ -70,11 +70,11 @@ import CDDLib
     @test JuMP.termination_status(m) == MOI.INFEASIBLE
 
     empty!(m)
-    (st, res_tup) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyExtended(), 0.1, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), lib = CDDLib.Library(:exact))
+    (st, res_tup) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyExtended(), 0.1, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), poly_lib = CDDLib.Library(:exact))
     @test st == :INFEASIBLE
 
     empty!(m)
-    (st, res_tup) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyBatched(2), 0.1, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), lib = CDDLib.Library(:exact))
+    (st, res_tup) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyBatched(2), 0.1, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), poly_lib = CDDLib.Library(:exact))
     @test st == :INFEASIBLE
 
     res = NORBiP.solve_near_optimal(bp, NORBiP.SingleVertexHeuristic(3), 0.1, () -> SCIP.Optimizer(display_verblevel=0), silent=true, sublimit=1000)

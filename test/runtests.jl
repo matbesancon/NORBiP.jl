@@ -89,7 +89,7 @@ end
 @testset "Tests model 2 with lazy constraints" begin
     bp = test_bp2()
     m = Model(() -> SCIP.Optimizer(display_verblevel = 0))
-    (st, problem_ref) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyExtended(), 0.5, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), lib = CDDLib.Library(:exact))
+    (st, problem_ref) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyExtended(), 0.5, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), poly_lib = CDDLib.Library(:exact))
     (x, v, w) = (problem_ref[:x], problem_ref[:v], problem_ref[:w])
     @test JuMP.termination_status(problem_ref[:model]) == MOI.OPTIMAL
     @test st === :OPTIMAL
@@ -106,7 +106,7 @@ end
     bp = test_bp2()
     for Γ in (1, 2, 3, 10)
         m = Model(() -> SCIP.Optimizer(display_verblevel = 0))
-        (st, problem_ref) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyBatched(Γ), 0.5, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), lib = CDDLib.Library(:exact))
+        (st, problem_ref) = NORBiP.solve_near_optimal(m, bp, NORBiP.LazyBatched(Γ), 0.5, optimizer = () -> SCIP.Optimizer(display_verblevel = 0), poly_lib = CDDLib.Library(:exact))
         (x, v, w) = (problem_ref[:x], problem_ref[:v], problem_ref[:w])
         @test JuMP.termination_status(problem_ref[:model]) == MOI.OPTIMAL
         @test st === :OPTIMAL
