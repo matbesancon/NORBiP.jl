@@ -81,7 +81,7 @@ function add_upper_level(m::JuMP.Model, bp::BilevelProblem, x, v)
 end
 
 """
-    solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::LazyExtended, δ::Real; optimizer, poly_lib)
+    solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::LazyExtended, δ::Real; optimizer, poly_lib, verbose=false)
 """
 function solve_near_optimal(m::JuMP.Model, bp::BilevelProblem, ::LazyExtended, δ::Real; optimizer, poly_lib, verbose=false)
     (m, x, v, λ, σ, s, upperfeas, lowerfeas, kkt, kkt2_var, kkt2_bounds) = bilevel_optimality(m, bp, upperlevel=true)
